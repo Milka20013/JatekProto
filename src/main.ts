@@ -2,10 +2,12 @@
 
 const loadingScene = new LoadingScene("loading");
 const homeScene = new HomeScene("home");
-const gameScene = new MainScene("Jatek");
+const statScene = new StatScene("stat");
+const villageScene = new VillageScene("village");
 
 const game = new Phaser.Game({
-  width: 360,
-  height: 640,
-  scene: [loadingScene, homeScene, gameScene],
+  width: 1280,
+  height: 720,
+  scene: [loadingScene, homeScene, statScene, villageScene],
+  type: Phaser.AUTO,
 });
