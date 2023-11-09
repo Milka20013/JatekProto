@@ -79,8 +79,9 @@ class StatScene extends Phaser.Scene {
     checkButton.setOrigin(0, 0);
     checkButton.setInteractive({ cursor: "pointer" });
     checkButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.scene.start("village");
+      this.scene.start("city");
     });
+    this.scene.start("city");
   }
   increaseStat(stat: Stat): void {
     const result = Stats.increaseStat(stat);
