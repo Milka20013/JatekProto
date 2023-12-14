@@ -14,6 +14,13 @@ class Player {
    * Returns true if the hp is below 0
    *
    */
+
+  static increaseStat(stat: Stat) {
+    let result = this.stats.increaseStat(stat);
+    this.initialHp = 15 + this.stats.getStatValue(StatName.vit) * 5;
+    this.currentHp = this.initialHp;
+    return result;
+  }
   static registerDamage(dmg: number) {
     this.currentHp -= dmg;
     if (this.currentHp <= 0) {

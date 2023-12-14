@@ -90,8 +90,7 @@ class StatScene extends Phaser.Scene {
     //this.scene.start("arena");
   }
   increaseStat(stat: Stat): void {
-    console.log(stat);
-    const result = Player.stats.increaseStat(stat);
+    const result = Player.increaseStat(stat);
     if (result == -1) {
       return;
     }
