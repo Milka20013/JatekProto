@@ -48,7 +48,7 @@ class Player {
   }
   static die() {
     this.level = 1;
-    this.stats = new Stats(4);
+    this.stats = new Stats(10);
     this.initialHp = 20;
     this.currentHp = this.initialHp;
     this.wins = 0;
