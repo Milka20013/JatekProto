@@ -26,7 +26,7 @@ class CityScene extends Phaser.Scene {
       .setInteractive({ cursor: "pointer" });
     arenaDoor.alpha = 0.01;
     arenaDoor.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.scene.start("arena");
+      this.scene.start("arenaLobby");
     });
   }
 }

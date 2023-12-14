@@ -24,6 +24,9 @@ class LoadingScene extends Phaser.Scene {
       ImageIdConstants.notYetImplementedBg,
       assetsPath + "NAN.png"
     );
+    this.load.image(ImageIdConstants.arenaBG, assetsPath + "ArenaBG.png");
+    this.load.image(ImageIdConstants.cancel, assetsPath + "cancel.png");
+    this.load.image(ImageIdConstants.playerSprite, assetsPath + "cancel.png");
 
     const bg = this.add.rectangle(
       0,
