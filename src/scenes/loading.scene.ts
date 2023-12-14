@@ -26,7 +26,24 @@ class LoadingScene extends Phaser.Scene {
     );
     this.load.image(ImageIdConstants.arenaBG, assetsPath + "ArenaBG.png");
     this.load.image(ImageIdConstants.cancel, assetsPath + "cancel.png");
-    this.load.image(ImageIdConstants.playerSprite, assetsPath + "cancel.png");
+    this.load.image(
+      ImageIdConstants.playerSprite,
+      assetsPath + "Karakter2.png"
+    );
+    this.load.image(ImageIdConstants.enemySprite, assetsPath + "Karakter5.png");
+    this.load.image(ImageIdConstants.healthBar, assetsPath + "Health_Bar.png");
+    this.load.image(
+      ImageIdConstants.attackLightSprite,
+      assetsPath + "AttackLight.png"
+    );
+    this.load.image(
+      ImageIdConstants.attackMediumSprite,
+      assetsPath + "AttackMedium.png"
+    );
+    this.load.image(
+      ImageIdConstants.attackHeavySprite,
+      assetsPath + "AttackHeavy.png"
+    );
 
     const bg = this.add.rectangle(
       0,

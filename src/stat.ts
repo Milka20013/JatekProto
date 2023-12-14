@@ -99,7 +99,7 @@ class Stats {
         break;
     }
     return (
-      Math.min(Math.sqrt(Math.max(attack + attackModePoints - def, 1)), 3.8) *
+      Math.min(Math.sqrt(Math.max(attack + attackModePoints - def, 4)), 3.8) *
       0.25
     );
   }

@@ -10,4 +10,9 @@ class ImageIdConstants {
   static readonly notYetImplementedBg: string = "notYetImplemented";
   static readonly arenaBG: string = "arenaBG";
   static readonly playerSprite: string = "player";
+  static readonly enemySprite: string = "enemy";
+  static readonly healthBar: string = "health_bar";
+  static readonly attackLightSprite: string = "attack_light";
+  static readonly attackMediumSprite: string = "attack_medium";
+  static readonly attackHeavySprite: string = "attack_heavy";
 }

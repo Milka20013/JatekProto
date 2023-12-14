@@ -15,6 +15,7 @@ class StatScene extends Phaser.Scene {
   }
 
   create() {
+    this.statValueTexts = [];
     const bg = this.add.rectangle(0, 0, this.width, this.height, 0xd7e5fc);
     bg.setOrigin(0, 0);
 
@@ -89,6 +90,7 @@ class StatScene extends Phaser.Scene {
     //this.scene.start("arena");
   }
   increaseStat(stat: Stat): void {
+    console.log(stat);
     const result = Player.stats.increaseStat(stat);
     if (result == -1) {
       return;
