@@ -3,11 +3,17 @@
 class ArenaScene extends ShopScene {
   enemy!: Enemy;
   canDoAction: boolean = true;
+
+  playerHealthText!: Phaser.GameObjects.Text;
+  enemyHealthText!: Phaser.GameObjects.Text;
   playerHealthBar!: Phaser.GameObjects.Rectangle;
   enemyHealthBar!: Phaser.GameObjects.Rectangle;
 
   playerSprite!: Phaser.GameObjects.Sprite;
   enemySprite!: Phaser.GameObjects.Sprite;
+
+  playerActionText!: Phaser.GameObjects.Text;
+  enemyActionText!: Phaser.GameObjects.Text;
 
   constructor(name: string) {
     super(name);
@@ -40,6 +46,14 @@ class ArenaScene extends ShopScene {
     playerHealthBorder.setDepth(1);
     this.playerHealthBar = this.add.rectangle(100, 500, 200, 70, 0x990024);
     this.playerHealthBar.setOrigin(0, 0);
+    this.playerHealthText = this.add
+      .text(0, 0, Player.currentHp.toString())
+      .setDepth(2);
+    this.enemyHealthText = this.add
+      .text(0, 0, this.enemy.currentHp.toString())
+      .setDepth(2);
+
+    Phaser.Display.Align.In.Center(this.playerHealthText, playerHealthBorder);
     Phaser.Display.Align.In.Center(this.playerHealthBar, playerHealthBorder);
     const playerArmorBorder = this.add.sprite(
       100,
@@ -59,6 +73,7 @@ class ArenaScene extends ShopScene {
 
     this.enemyHealthBar = this.add.rectangle(100, 500, 200, 70, 0x990024);
     this.enemyHealthBar.setOrigin(0, 0);
+    Phaser.Display.Align.In.Center(this.enemyHealthText, enemyHealthBorder);
     Phaser.Display.Align.In.Center(this.enemyHealthBar, enemyHealthBorder);
 
     const enemyArmorBorder = this.add.sprite(
@@ -75,7 +90,7 @@ class ArenaScene extends ShopScene {
     attackLightButton.setOrigin(0, 0);
     attackLightButton.setScale(75 / 512, 75 / 512);
     attackLightButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.light);
+      this.playerAttack(AttackMode.Light);
     });
 
     const attackMediumButton = this.add
@@ -84,7 +99,7 @@ class ArenaScene extends ShopScene {
     attackMediumButton.setOrigin(0, 0);
     attackMediumButton.setScale(75 / 512, 75 / 512);
     attackMediumButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.medium);
+      this.playerAttack(AttackMode.Medium);
     });
 
     const attackHeavyButton = this.add
@@ -93,9 +108,11 @@ class ArenaScene extends ShopScene {
     attackHeavyButton.setOrigin(0, 0);
     attackHeavyButton.setScale(75 / 512, 75 / 512);
     attackHeavyButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.heavy);
+      this.playerAttack(AttackMode.Heavy);
     });
 
+    this.playerActionText = this.add.text(100, 150, "Player action");
+    this.enemyActionText = this.add.text(900, 150, "Enemy action");
     //animations
   }
 
@@ -109,6 +126,8 @@ class ArenaScene extends ShopScene {
       this.enemy.stats,
       attackMode
     );
+    this.playerActionText.text =
+      "Player " + AttackMode[attackMode] + " attack does " + damage + " damage";
     if (damage == 0) {
       this.tweens.add({
         targets: this.playerSprite,
@@ -128,24 +147,25 @@ class ArenaScene extends ShopScene {
         y: 390,
         yoyo: true,
         onComplete: () => {
+          let dead = this.enemy.registerDamage(damage);
+          if (dead) {
+            let levelledUp = Player.win();
+            if (levelledUp) {
+              this.scene.start("stat");
+            } else {
+              this.scene.start("city");
+            }
+            Player.reset();
+            return;
+          }
+          this.enemyHealthBar.setScale(
+            this.enemy.currentHp / this.enemy.initialHp,
+            1
+          );
+          this.enemyHealthText.text = this.enemy.currentHp.toString();
           this.enemyTurn();
         },
       });
-      let dead = this.enemy.registerDamage(damage);
-      if (dead) {
-        let levelledUp = Player.win();
-        if (levelledUp) {
-          this.scene.start("stat");
-        } else {
-          this.scene.start("city");
-        }
-        Player.reset();
-        return;
-      }
-      this.enemyHealthBar.setScale(
-        this.enemy.currentHp / this.enemy.initialHp,
-        1
-      );
     }
 
     //this.enemyTurn();
@@ -154,12 +174,12 @@ class ArenaScene extends ShopScene {
   enemyTurn() {
     this.canDoAction = false;
     let num = Math.floor(Math.random() * 3);
-    let attackMode: AttackMode = AttackMode.light;
+    let attackMode: AttackMode = AttackMode.Light;
     if (num == 1) {
-      attackMode = AttackMode.medium;
+      attackMode = AttackMode.Medium;
     }
     if (num == 2) {
-      attackMode = AttackMode.heavy;
+      attackMode = AttackMode.Heavy;
     }
     this.enemyAttack(attackMode);
   }
@@ -170,7 +190,8 @@ class ArenaScene extends ShopScene {
       Player.stats,
       attackMode
     );
-
+    this.enemyActionText.text =
+      "Enemy " + AttackMode[attackMode] + " attack does " + damage + " damage";
     if (damage == 0) {
       this.tweens.add({
         targets: this.enemySprite,
@@ -190,16 +211,18 @@ class ArenaScene extends ShopScene {
         y: 390,
         yoyo: true,
         onComplete: () => {
+          let dead = Player.registerDamage(damage);
+          if (dead) {
+            Player.die();
+            this.scene.start("stat");
+            return;
+          }
+          this.playerHealthBar.setScale(Player.currentHp / Player.initialHp, 1);
+          this.playerHealthText.text = Player.currentHp.toString();
+
           this.playerTurn();
         },
       });
-      let dead = Player.registerDamage(damage);
-      if (dead) {
-        Player.die();
-        this.scene.start("stat");
-        return;
-      }
-      this.playerHealthBar.setScale(Player.currentHp / Player.initialHp, 1);
     }
 
     //this.playerTurn();

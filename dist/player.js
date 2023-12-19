@@ -2,9 +2,9 @@
 var _a;
 var AttackMode;
 (function (AttackMode) {
-    AttackMode[AttackMode["light"] = 0.66] = "light";
-    AttackMode[AttackMode["medium"] = 1] = "medium";
-    AttackMode[AttackMode["heavy"] = 1.5] = "heavy";
+    AttackMode[AttackMode["Light"] = 0.66] = "Light";
+    AttackMode[AttackMode["Medium"] = 1] = "Medium";
+    AttackMode[AttackMode["Heavy"] = 1.5] = "Heavy";
 })(AttackMode || (AttackMode = {}));
 class Player {
     /**

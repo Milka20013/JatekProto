@@ -86,13 +86,13 @@ class Stats {
     let def = defenderStat.getStatValue(StatName.def);
     let attackModePoints = 0;
     switch (attackMode) {
-      case AttackMode.light:
+      case AttackMode.Light:
         attackModePoints = 3;
         break;
-      case AttackMode.medium:
+      case AttackMode.Medium:
         attackModePoints = 0;
         break;
-      case AttackMode.heavy:
+      case AttackMode.Heavy:
         attackModePoints = -3;
         break;
       default:
