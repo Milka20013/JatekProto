@@ -68,6 +68,24 @@ class Stats {
         }
         this.statPoints = 0;
     }
+    applyItem(item) {
+        for (let i = 0; i < item.itemStats.length; i++) {
+            for (let j = 0; j < this.stats.length; j++) {
+                if (this.stats[j].name == item.itemStats[i].statname) {
+                    this.stats[j].value += item.itemStats[i].value;
+                }
+            }
+        }
+    }
+    deApplyItem(item) {
+        for (let i = 0; i < item.itemStats.length; i++) {
+            for (let j = 0; j < this.stats.length; j++) {
+                if (this.stats[j].name == item.itemStats[i].statname) {
+                    this.stats[j].value -= item.itemStats[i].value;
+                }
+            }
+        }
+    }
     static calculateSuccessRate(attackerStat, defenderStat, attackMode) {
         let attack = attackerStat.getStatValue(StatName.atk);
         let def = defenderStat.getStatValue(StatName.def);

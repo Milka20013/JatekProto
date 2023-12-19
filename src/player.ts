@@ -8,6 +8,9 @@ class Player {
   static stats: Stats = new Stats(10);
   static initialHp: number = 20;
   static currentHp: number = this.initialHp;
+  static sword: Item;
+  static armor: Item;
+  static money: number = 50;
   private static wins: number = 0;
 
   /**
@@ -52,5 +55,33 @@ class Player {
     this.initialHp = 20;
     this.currentHp = this.initialHp;
     this.wins = 0;
+  }
+
+  static buySword(sword: Item) {
+    if (this.money >= sword.cost) {
+      this.swapSwords(sword);
+      this.money -= sword.cost;
+      return true;
+    }
+    return false;
+  }
+  static swapSwords(sword: Item) {
+    this.stats.deApplyItem(this.sword);
+    this.sword = sword;
+    this.stats.applyItem(this.sword);
+  }
+
+  static buyArmor(armor: Item) {
+    if (this.money >= armor.cost) {
+      this.swapArmors(armor);
+      this.money -= armor.cost;
+      return true;
+    }
+    return false;
+  }
+  static swapArmors(armor: Item) {
+    this.stats.deApplyItem(this.armor);
+    this.armor = armor;
+    this.stats.applyItem(this.armor);
   }
 }

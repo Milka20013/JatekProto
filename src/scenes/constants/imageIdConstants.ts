@@ -15,4 +15,11 @@ class ImageIdConstants {
   static readonly attackLightSprite: string = "attack_light";
   static readonly attackMediumSprite: string = "attack_medium";
   static readonly attackHeavySprite: string = "attack_heavy";
+  static readonly BtierArmor: string = "Bronze Armor";
+  static readonly StierArmor: string = "Silver Armor";
+  static readonly GtierArmor: string = "Gold Armor";
+  static readonly BtierSword: string = "Bronze Sword";
+  static readonly StierSword: string = "Silver Sword";
+  static readonly GtierSword: string = "Gold Sword";
+  static readonly toStatButton: string = "toStatButton";
 }

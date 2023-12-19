@@ -44,6 +44,16 @@ class LoadingScene extends Phaser.Scene {
       ImageIdConstants.attackHeavySprite,
       assetsPath + "AttackHeavy.png"
     );
+    this.load.image(ImageIdConstants.BtierArmor, assetsPath + "BtierArmor.png");
+    this.load.image(ImageIdConstants.GtierArmor, assetsPath + "GtierArmor.png");
+    this.load.image(ImageIdConstants.StierArmor, assetsPath + "StierArmor.png");
+    this.load.image(ImageIdConstants.BtierSword, assetsPath + "BtierSword.png");
+    this.load.image(ImageIdConstants.GtierSword, assetsPath + "GtierSword.png");
+    this.load.image(ImageIdConstants.StierSword, assetsPath + "StierSword.png");
+    this.load.image(
+      ImageIdConstants.toStatButton,
+      assetsPath + "statArrow.png"
+    );
 
     const bg = this.add.rectangle(
       0,
@@ -52,6 +62,8 @@ class LoadingScene extends Phaser.Scene {
       +this.sys.game.config.height,
       0xffffff
     );
+    Player.sword = Item.NullItem;
+    Player.armor = Item.NullItem;
     bg.setOrigin(0, 0);
     const loadingBar = this.add.rectangle(0, 0, 200, 40, 0x000000, 0.1);
     Phaser.Display.Align.In.Center(loadingBar, bg);

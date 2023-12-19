@@ -48,11 +48,38 @@ class Player {
         this.currentHp = this.initialHp;
         this.wins = 0;
     }
+    static buySword(sword) {
+        if (this.money >= sword.cost) {
+            this.swapSwords(sword);
+            this.money -= sword.cost;
+            return true;
+        }
+        return false;
+    }
+    static swapSwords(sword) {
+        this.stats.deApplyItem(this.sword);
+        this.sword = sword;
+        this.stats.applyItem(this.sword);
+    }
+    static buyArmor(armor) {
+        if (this.money >= armor.cost) {
+            this.swapArmors(armor);
+            this.money -= armor.cost;
+            return true;
+        }
+        return false;
+    }
+    static swapArmors(armor) {
+        this.stats.deApplyItem(this.armor);
+        this.armor = armor;
+        this.stats.applyItem(this.armor);
+    }
 }
 _a = Player;
 Player.level = 1;
 Player.stats = new Stats(10);
 Player.initialHp = 20;
 Player.currentHp = _a.initialHp;
+Player.money = 50;
 Player.wins = 0;
 //# sourceMappingURL=player.js.map

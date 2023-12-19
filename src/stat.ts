@@ -77,6 +77,26 @@ class Stats {
     this.statPoints = 0;
   }
 
+  applyItem(item: Item) {
+    for (let i = 0; i < item.itemStats.length; i++) {
+      for (let j = 0; j < this.stats.length; j++) {
+        if (this.stats[j].name == item.itemStats[i].statname) {
+          this.stats[j].value += item.itemStats[i].value;
+        }
+      }
+    }
+  }
+
+  deApplyItem(item: Item) {
+    for (let i = 0; i < item.itemStats.length; i++) {
+      for (let j = 0; j < this.stats.length; j++) {
+        if (this.stats[j].name == item.itemStats[i].statname) {
+          this.stats[j].value -= item.itemStats[i].value;
+        }
+      }
+    }
+  }
+
   static calculateSuccessRate(
     attackerStat: Stats,
     defenderStat: Stats,
