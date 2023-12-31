@@ -66,4 +66,16 @@ class Item {
     this.cost = cost;
     this.name = name;
   }
+
+  tooltip(): string {
+    let str: string = "";
+    for (let i = 0; i < this.itemStats.length; i++) {
+      str +=
+        StatName[this.itemStats[i].statname] +
+        " " +
+        this.itemStats[i].value +
+        " ";
+    }
+    return str;
+  }
 }

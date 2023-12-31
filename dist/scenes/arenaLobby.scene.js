@@ -1,6 +1,6 @@
 "use strict";
 /// <reference path="../types/index.d.ts" />
-class ArenaLobbyScene extends ShopScene {
+class ArenaLobbyScene extends BaseScene {
     constructor(name) {
         super(name);
     }

@@ -1,6 +1,6 @@
 /// <reference path="../types/index.d.ts" />
 
-class ArenaLobbyScene extends ShopScene {
+class ArenaLobbyScene extends BaseScene {
   enemy!: Enemy;
   constructor(name: string) {
     super(name);

@@ -24,4 +24,7 @@ ImageIdConstants.BtierSword = "Bronze Sword";
 ImageIdConstants.StierSword = "Silver Sword";
 ImageIdConstants.GtierSword = "Gold Sword";
 ImageIdConstants.toStatButton = "toStatButton";
+ImageIdConstants.shieldIcon = "shieldIcon";
+ImageIdConstants.shieldNoBg = "shieldNoBg";
+ImageIdConstants.magicShop = "magicShop";
 //# sourceMappingURL=imageIdConstants.js.map

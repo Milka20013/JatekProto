@@ -14,9 +14,19 @@ class Enemy {
     registerDamage(dmg) {
         this.currentHp -= dmg;
         if (this.currentHp <= 0) {
+            this.giveMoney();
             return true;
         }
         return false;
+    }
+    giveMoney() {
+        const max = (40 + Player.level * 8) *
+            (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
+        const min = 25 +
+            Player.level *
+                3 *
+                (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
+        Player.money += Math.round(Math.random() * (max - min) + min);
     }
 }
 //# sourceMappingURL=enemy.js.map

@@ -1,6 +1,6 @@
 /// <reference path="../types/index.d.ts" />
 
-class EquipmentShopScene extends ShopScene {
+class EquipmentShopScene extends BaseScene {
   infoText!: Phaser.GameObjects.Text;
   moneyText!: Phaser.GameObjects.Text;
   constructor(name: string) {
@@ -21,6 +21,12 @@ class EquipmentShopScene extends ShopScene {
         .setOrigin(0, 0)
         .setScale(100 / 512, 100 / 512)
         .setInteractive({ cursor: "pointer" })
+        .on(Phaser.Input.Events.POINTER_OUT, () => {
+          this.closeTooltip();
+        })
+        .on(Phaser.Input.Events.POINTER_OVER, () => {
+          this.invokeTooltip(150 + 125 * i, 375, Item.swords[i].tooltip());
+        })
         .on(Phaser.Input.Events.POINTER_DOWN, () => {
           if (Player.sword.cost < Item.swords[i].cost) {
             const result = Player.buySword(Item.swords[i]);
@@ -50,6 +56,16 @@ class EquipmentShopScene extends ShopScene {
         .setOrigin(0, 0)
         .setScale(100 / 512, 100 / 512)
         .setInteractive({ cursor: "pointer" })
+        .on(Phaser.Input.Events.POINTER_OUT, () => {
+          this.closeTooltip();
+        })
+        .on(Phaser.Input.Events.POINTER_OVER, () => {
+          this.invokeTooltip(
+            150 + Item.swords.length * 150 + 125 * i,
+            375,
+            Item.armors[i].tooltip()
+          );
+        })
         .on(Phaser.Input.Events.POINTER_DOWN, () => {
           if (Player.armor.cost < Item.armors[i].cost) {
             const result = Player.buyArmor(Item.armors[i]);

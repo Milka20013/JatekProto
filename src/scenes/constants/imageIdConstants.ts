@@ -22,4 +22,7 @@ class ImageIdConstants {
   static readonly StierSword: string = "Silver Sword";
   static readonly GtierSword: string = "Gold Sword";
   static readonly toStatButton: string = "toStatButton";
+  static readonly shieldIcon: string = "shieldIcon";
+  static readonly shieldNoBg: string = "shieldNoBg";
+  static readonly magicShop: string = "magicShop";
 }

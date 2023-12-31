@@ -54,6 +54,9 @@ class LoadingScene extends Phaser.Scene {
       ImageIdConstants.toStatButton,
       assetsPath + "statArrow.png"
     );
+    this.load.image(ImageIdConstants.shieldNoBg, assetsPath + "Shield.png");
+    this.load.image(ImageIdConstants.shieldIcon, assetsPath + "Deffend.png");
+    this.load.image(ImageIdConstants.magicShop, assetsPath + "MShopbg.png");
 
     const bg = this.add.rectangle(
       0,

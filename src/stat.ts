@@ -107,20 +107,20 @@ class Stats {
     let attackModePoints = 0;
     switch (attackMode) {
       case AttackMode.Light:
-        attackModePoints = 3;
+        attackModePoints = 4;
         break;
       case AttackMode.Medium:
-        attackModePoints = 0;
+        attackModePoints = 1;
         break;
       case AttackMode.Heavy:
-        attackModePoints = -3;
+        attackModePoints = -4;
         break;
       default:
         break;
     }
     return (
-      Math.min(Math.sqrt(Math.max(attack + attackModePoints - def, 4)), 3.8) *
-      0.25
+      Math.min(Math.sqrt(Math.max(attack + attackModePoints - def, 0.5)), 3) *
+      0.33
     );
   }
 

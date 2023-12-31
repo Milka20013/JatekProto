@@ -1,6 +1,6 @@
 /// <reference path="../types/index.d.ts" />
 
-class ArenaScene extends ShopScene {
+class ArenaScene extends BaseScene {
   enemy!: Enemy;
   canDoAction: boolean = true;
 
@@ -26,6 +26,12 @@ class ArenaScene extends ShopScene {
     this.bg.setTexture(ImageIdConstants.arenaBG);
     this.checkButton.destroy();
     this.canDoAction = true;
+
+    this.toolTip = this.add
+      .text(200, 200, "Tooltip")
+      .setDepth(2)
+      .setActive(false)
+      .setAlpha(0);
 
     this.playerSprite = this.add.sprite(
       250,
@@ -88,34 +94,79 @@ class ArenaScene extends ShopScene {
       .sprite(550, 600, ImageIdConstants.attackLightSprite)
       .setInteractive({ cursor: "pointer" });
     attackLightButton.setOrigin(0, 0);
-    attackLightButton.setScale(75 / 512, 75 / 512);
-    attackLightButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.Light);
-    });
+    attackLightButton
+      .setScale(75 / 512, 75 / 512)
+      .on(Phaser.Input.Events.POINTER_OUT, () => {
+        this.closeTooltip();
+      })
+      .on(Phaser.Input.Events.POINTER_OVER, () => {
+        this.invokeTooltip(
+          550,
+          600,
+          "" +
+            Math.round(this.getAttackSuccessRate(AttackMode.Light) * 100) +
+            "%"
+        );
+      })
+      .on(Phaser.Input.Events.POINTER_DOWN, () => {
+        this.playerAttack(AttackMode.Light);
+      });
 
     const attackMediumButton = this.add
       .sprite(550, 500, ImageIdConstants.attackMediumSprite)
       .setInteractive({ cursor: "pointer" });
     attackMediumButton.setOrigin(0, 0);
     attackMediumButton.setScale(75 / 512, 75 / 512);
-    attackMediumButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.Medium);
-    });
+    attackMediumButton
+      .on(Phaser.Input.Events.POINTER_OUT, () => {
+        this.closeTooltip();
+      })
+      .on(Phaser.Input.Events.POINTER_OVER, () => {
+        this.invokeTooltip(
+          550,
+          500,
+          "" +
+            Math.round(this.getAttackSuccessRate(AttackMode.Medium) * 100) +
+            "%"
+        );
+      })
+      .on(Phaser.Input.Events.POINTER_DOWN, () => {
+        this.playerAttack(AttackMode.Medium);
+      });
 
     const attackHeavyButton = this.add
       .sprite(550, 400, ImageIdConstants.attackHeavySprite)
       .setInteractive({ cursor: "pointer" });
     attackHeavyButton.setOrigin(0, 0);
     attackHeavyButton.setScale(75 / 512, 75 / 512);
-    attackHeavyButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
-      this.playerAttack(AttackMode.Heavy);
-    });
+    attackHeavyButton
+      .on(Phaser.Input.Events.POINTER_OUT, () => {
+        this.closeTooltip();
+      })
+      .on(Phaser.Input.Events.POINTER_OVER, () => {
+        this.invokeTooltip(
+          550,
+          400,
+          "" +
+            Math.round(this.getAttackSuccessRate(AttackMode.Heavy) * 100) +
+            "%"
+        );
+      })
+      .on(Phaser.Input.Events.POINTER_DOWN, () => {
+        this.playerAttack(AttackMode.Heavy);
+      });
 
     this.playerActionText = this.add.text(100, 150, "Player action");
     this.enemyActionText = this.add.text(900, 150, "Enemy action");
-    //animations
   }
 
+  getAttackSuccessRate(attackMode: AttackMode): number {
+    return Stats.calculateSuccessRate(
+      Player.stats,
+      this.enemy.stats,
+      attackMode
+    );
+  }
   playerAttack(attackMode: AttackMode) {
     if (!this.canDoAction) {
       return;
