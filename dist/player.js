@@ -40,6 +40,7 @@ class Player {
     }
     static reset() {
         this.currentHp = this.initialHp;
+        this.consumables = this.consumables.filter((x) => x.name != "Null");
     }
     static heal(amount) {
         this.currentHp += amount;
@@ -50,7 +51,11 @@ class Player {
         this.stats = new Stats(10);
         this.initialHp = 20;
         this.currentHp = this.initialHp;
+        this.money = 250;
         this.wins = 0;
+        this.armor = Item.NullItem;
+        this.sword = Item.NullItem;
+        this.consumables = [];
     }
     static buySword(sword) {
         if (this.money >= sword.cost) {

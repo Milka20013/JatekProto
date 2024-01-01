@@ -93,6 +93,9 @@ class ArenaScene extends BaseScene {
         this.playerActionText = this.add.text(100, 150, "Player action");
         this.enemyActionText = this.add.text(900, 150, "Enemy action");
         for (let i = 0; i < Player.consumables.length; i++) {
+            if (Player.consumables[i].name == "Null") {
+                continue;
+            }
             const consumable = this.add
                 .sprite(100 + i * 80, 475, Player.consumables[i].ingameIconName)
                 .setOrigin(0, 0)

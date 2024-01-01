@@ -11,6 +11,14 @@ class Consumable {
     }
 }
 _a = Consumable;
+Consumable.nullConsumable = {
+    name: "Null",
+    shopIconName: ImageIdConstants.potionItem,
+    ingameIconName: ImageIdConstants.potionIcon,
+    doEffect: () => { },
+    cost: 0,
+    tooltip: "",
+};
 Consumable.healthPotion = {
     name: "Health potion",
     shopIconName: ImageIdConstants.potionItem,
@@ -18,7 +26,7 @@ Consumable.healthPotion = {
     doEffect: () => {
         Player.heal(Player.initialHp * 0.5);
         const index = Player.consumables.indexOf(_a.healthPotion);
-        Player.consumables.splice(index, 1);
+        Player.consumables[index] = _a.nullConsumable;
     },
     cost: 100,
     tooltip: "50% health heal",
@@ -30,7 +38,7 @@ Consumable.shield = {
     doEffect: (enemy) => {
         enemy === null || enemy === void 0 ? void 0 : enemy.stats.modifyStat(StatName.atk, -2);
         const index = Player.consumables.indexOf(_a.shield);
-        Player.consumables.splice(index, 1);
+        Player.consumables[index] = _a.nullConsumable;
     },
     cost: 200,
     tooltip: "Enemies misses more!",

@@ -6,6 +6,14 @@ class Consumable {
   cost: number;
   tooltip: string;
 
+  private static nullConsumable: Consumable = {
+    name: "Null",
+    shopIconName: ImageIdConstants.potionItem,
+    ingameIconName: ImageIdConstants.potionIcon,
+    doEffect: () => {},
+    cost: 0,
+    tooltip: "",
+  };
   private static healthPotion: Consumable = {
     name: "Health potion",
     shopIconName: ImageIdConstants.potionItem,
@@ -13,7 +21,7 @@ class Consumable {
     doEffect: () => {
       Player.heal(Player.initialHp * 0.5);
       const index = Player.consumables.indexOf(this.healthPotion);
-      Player.consumables.splice(index, 1);
+      Player.consumables[index] = this.nullConsumable;
     },
     cost: 100,
     tooltip: "50% health heal",
@@ -25,7 +33,7 @@ class Consumable {
     doEffect: (enemy) => {
       enemy?.stats.modifyStat(StatName.atk, -2);
       const index = Player.consumables.indexOf(this.shield);
-      Player.consumables.splice(index, 1);
+      Player.consumables[index] = this.nullConsumable;
     },
     cost: 200,
     tooltip: "Enemies misses more!",
