@@ -2,6 +2,7 @@ class Enemy {
   stats: Stats = new Stats();
   initialHp: number;
   currentHp: number;
+  givenMoney!: number;
   constructor(statPoints: number) {
     this.stats.statPoints = statPoints;
     this.stats.randomizeStats();
@@ -22,7 +23,7 @@ class Enemy {
     return false;
   }
 
-  giveMoney() {
+  getMoneyAmount() {
     const max =
       (40 + Player.level * 8) *
       (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
@@ -31,7 +32,15 @@ class Enemy {
       Player.level *
         3 *
         (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
-    Player.money += Math.round(Math.random() * (max - min) + min);
+    this.givenMoney = Math.round(Math.random() * (max - min) + min);
+    return this.givenMoney;
+  }
+  giveMoney() {
+    if (!!this.givenMoney) {
+      Player.money += this.givenMoney;
+    } else {
+      Player.money += this.getMoneyAmount();
+    }
   }
 
   static currentEnemy: Enemy;

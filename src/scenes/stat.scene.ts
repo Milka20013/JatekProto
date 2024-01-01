@@ -1,4 +1,4 @@
-/// <reference path="../../types/index.d.ts" />
+/// <reference path="../types/index.d.ts" />
 
 class StatScene extends Phaser.Scene {
   width: number = 0;
@@ -6,6 +6,8 @@ class StatScene extends Phaser.Scene {
   // ! to shut up the compiler
   statPointValueText!: Phaser.GameObjects.Text;
   statValueTexts: Phaser.GameObjects.Text[] = [];
+
+  infoText!: Phaser.GameObjects.Text;
   constructor(name: string) {
     super(name);
   }
@@ -17,6 +19,13 @@ class StatScene extends Phaser.Scene {
   create() {
     this.statValueTexts = [];
     const bg = this.add.rectangle(0, 0, this.width, this.height, 0xd7e5fc);
+    this.infoText = this.add
+      .text(0, 0, "asd")
+      .setOrigin(0, 0)
+      .setActive(false)
+      .setAlpha(0)
+      .setDepth(3)
+      .setStyle({ color: "magenta" });
     bg.setOrigin(0, 0);
 
     const panel = this.add.sprite(
@@ -39,9 +48,15 @@ class StatScene extends Phaser.Scene {
       plusButton.setInteractive({ cursor: "pointer" });
       plusButton.on(Phaser.Input.Events.POINTER_OVER, () => {
         plusButton.setTintFill(0x0a6e49);
+        this.invokeInfoText(
+          plusButton.x,
+          plusButton.y,
+          Player.stats.stats[i].description
+        );
       });
       plusButton.on(Phaser.Input.Events.POINTER_OUT, () => {
         plusButton.setTintFill(0);
+        this.invokeInfoText();
       });
       plusButton.on(Phaser.Input.Events.POINTER_DOWN, () =>
         this.increaseStat(Player.stats.stats[i])
@@ -88,6 +103,18 @@ class StatScene extends Phaser.Scene {
       this.scene.start("city");
     });
     //this.scene.start("arena");
+  }
+
+  invokeInfoText(x?: number, y?: number, text?: string) {
+    if (this.infoText.active) {
+      this.infoText.setActive(false).setAlpha(0);
+      return;
+    }
+    this.infoText
+      .setActive(true)
+      .setAlpha(1)
+      .setText(text!)
+      .setPosition(x!, y! - 20);
   }
   increaseStat(stat: Stat): void {
     const result = Player.increaseStat(stat);

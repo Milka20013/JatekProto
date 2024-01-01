@@ -10,7 +10,8 @@ class Player {
   static currentHp: number = this.initialHp;
   static sword: Item;
   static armor: Item;
-  static money: number = 50;
+  static money: number = 250;
+  static consumables: Consumable[] = [];
   private static wins: number = 0;
 
   /**
@@ -49,6 +50,11 @@ class Player {
   static reset() {
     this.currentHp = this.initialHp;
   }
+
+  static heal(amount: number) {
+    this.currentHp += amount;
+    this.currentHp = Math.min(this.currentHp, this.initialHp);
+  }
   static die() {
     this.level = 1;
     this.stats = new Stats(10);
@@ -83,5 +89,17 @@ class Player {
     this.stats.deApplyItem(this.armor);
     this.armor = armor;
     this.stats.applyItem(this.armor);
+  }
+
+  static buyConsumable(consumable: Consumable) {
+    if (this.consumables.length >= 2) {
+      return "Too many consumables";
+    }
+    if (this.money >= consumable.cost) {
+      this.money -= consumable.cost;
+      this.consumables.push(consumable);
+      return "You bought " + consumable.name;
+    }
+    return "Not enough money :(";
   }
 }

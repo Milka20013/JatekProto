@@ -6,6 +6,7 @@ class BaseScene extends Phaser.Scene {
   width!: number;
   checkButton!: Phaser.GameObjects.Sprite;
   toolTip!: Phaser.GameObjects.Text;
+  infoText!: Phaser.GameObjects.Text;
   constructor(name: string) {
     super(name);
   }
@@ -32,6 +33,7 @@ class BaseScene extends Phaser.Scene {
     this.checkButton.on(Phaser.Input.Events.POINTER_DOWN, () => {
       this.scene.start("city");
     });
+    this.infoText = this.add.text(60, 100, "Hello!");
   }
   invokeTooltip(): void;
   invokeTooltip(x?: number, y?: number, text?: string): void;

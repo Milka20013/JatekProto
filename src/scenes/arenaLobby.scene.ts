@@ -7,6 +7,7 @@ class ArenaLobbyScene extends BaseScene {
   }
   create() {
     super.create();
+    this.infoText.alpha = 0;
     this.bg.setTexture(ImageIdConstants.arenaBG);
 
     this.enemy = new Enemy(Player.level * 3);

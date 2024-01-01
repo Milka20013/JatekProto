@@ -32,6 +32,5 @@ class HomeScene extends Phaser.Scene {
     text.on(Phaser.Input.Events.POINTER_DOWN, () => {
       this.scene.start("stat");
     });
-    this.scene.start("stat");
   }
 }

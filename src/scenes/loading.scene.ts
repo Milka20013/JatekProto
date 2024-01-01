@@ -55,6 +55,15 @@ class LoadingScene extends Phaser.Scene {
       assetsPath + "statArrow.png"
     );
     this.load.image(ImageIdConstants.shieldNoBg, assetsPath + "Shield.png");
+    this.load.image(ImageIdConstants.potionIcon, assetsPath + "UsePoti.png");
+    this.load.image(
+      ImageIdConstants.potionItem,
+      assetsPath + "EquipmentHp.png"
+    );
+    this.load.image(
+      ImageIdConstants.shieldShopItem,
+      assetsPath + "ShieldP.png"
+    );
     this.load.image(ImageIdConstants.shieldIcon, assetsPath + "Deffend.png");
     this.load.image(ImageIdConstants.magicShop, assetsPath + "MShopbg.png");
 

@@ -15,6 +15,8 @@ class ArenaScene extends BaseScene {
   playerActionText!: Phaser.GameObjects.Text;
   enemyActionText!: Phaser.GameObjects.Text;
 
+  resultBackground!: Phaser.GameObjects.Sprite;
+  resultCheck!: Phaser.GameObjects.Sprite;
   constructor(name: string) {
     super(name);
   }
@@ -23,15 +25,10 @@ class ArenaScene extends BaseScene {
   }
   create() {
     super.create();
+    this.infoText.alpha = 0;
     this.bg.setTexture(ImageIdConstants.arenaBG);
     this.checkButton.destroy();
     this.canDoAction = true;
-
-    this.toolTip = this.add
-      .text(200, 200, "Tooltip")
-      .setDepth(2)
-      .setActive(false)
-      .setAlpha(0);
 
     this.playerSprite = this.add.sprite(
       250,
@@ -45,12 +42,12 @@ class ArenaScene extends BaseScene {
 
     const playerHealthBorder = this.add.sprite(
       100,
-      500,
+      550,
       ImageIdConstants.healthBar
     );
     playerHealthBorder.setOrigin(0, 0);
     playerHealthBorder.setDepth(1);
-    this.playerHealthBar = this.add.rectangle(100, 500, 200, 70, 0x990024);
+    this.playerHealthBar = this.add.rectangle(100, 550, 200, 70, 0x990024);
     this.playerHealthBar.setOrigin(0, 0);
     this.playerHealthText = this.add
       .text(0, 0, Player.currentHp.toString())
@@ -61,34 +58,20 @@ class ArenaScene extends BaseScene {
 
     Phaser.Display.Align.In.Center(this.playerHealthText, playerHealthBorder);
     Phaser.Display.Align.In.Center(this.playerHealthBar, playerHealthBorder);
-    const playerArmorBorder = this.add.sprite(
-      100,
-      600,
-      ImageIdConstants.healthBar
-    );
-    playerArmorBorder.setOrigin(0, 0);
 
     const enemyHealthBorder = this.add.sprite(
       900,
-      500,
+      550,
       ImageIdConstants.healthBar
     );
     enemyHealthBorder.setFlipX(true);
     enemyHealthBorder.setOrigin(0, 0);
     enemyHealthBorder.setDepth(1);
 
-    this.enemyHealthBar = this.add.rectangle(100, 500, 200, 70, 0x990024);
+    this.enemyHealthBar = this.add.rectangle(100, 550, 200, 70, 0x990024);
     this.enemyHealthBar.setOrigin(0, 0);
     Phaser.Display.Align.In.Center(this.enemyHealthText, enemyHealthBorder);
     Phaser.Display.Align.In.Center(this.enemyHealthBar, enemyHealthBorder);
-
-    const enemyArmorBorder = this.add.sprite(
-      900,
-      600,
-      ImageIdConstants.healthBar
-    );
-    enemyArmorBorder.setOrigin(0, 0);
-    enemyArmorBorder.setFlipX(true);
 
     const attackLightButton = this.add
       .sprite(550, 600, ImageIdConstants.attackLightSprite)
@@ -158,6 +141,21 @@ class ArenaScene extends BaseScene {
 
     this.playerActionText = this.add.text(100, 150, "Player action");
     this.enemyActionText = this.add.text(900, 150, "Enemy action");
+    for (let i = 0; i < Player.consumables.length; i++) {
+      const consumable = this.add
+        .sprite(100 + i * 80, 475, Player.consumables[i].ingameIconName)
+        .setOrigin(0, 0)
+        .setScale(75 / 512, 75 / 512)
+        .setInteractive({ cursor: "pointer" })
+        .on(Phaser.Input.Events.POINTER_DOWN, () => {
+          const currConsumable = Player.consumables[i];
+          currConsumable.doEffect(this.enemy);
+          consumable.alpha = 0;
+          this.playerHealthBar.setScale(Player.currentHp / Player.initialHp, 1);
+          this.playerHealthText.text = "" + Player.currentHp;
+          this.playerActionText.text = "Player uses " + currConsumable.name;
+        });
+    }
   }
 
   getAttackSuccessRate(attackMode: AttackMode): number {
@@ -200,13 +198,7 @@ class ArenaScene extends BaseScene {
         onComplete: () => {
           let dead = this.enemy.registerDamage(damage);
           if (dead) {
-            let levelledUp = Player.win();
-            if (levelledUp) {
-              this.scene.start("stat");
-            } else {
-              this.scene.start("city");
-            }
-            Player.reset();
+            this.startResultScene(true, this.enemy.getMoneyAmount());
             return;
           }
           this.enemyHealthBar.setScale(
@@ -265,7 +257,7 @@ class ArenaScene extends BaseScene {
           let dead = Player.registerDamage(damage);
           if (dead) {
             Player.die();
-            this.scene.start("stat");
+            this.startResultScene(false);
             return;
           }
           this.playerHealthBar.setScale(Player.currentHp / Player.initialHp, 1);
@@ -279,6 +271,15 @@ class ArenaScene extends BaseScene {
     //this.playerTurn();
   }
 
+  startResultScene(result: boolean, gold?: number) {
+    FightResultScene.won = result;
+    if (result) {
+      FightResultScene.goldAmount = gold!;
+    } else {
+      FightResultScene.goldAmount = 0;
+    }
+    this.scene.start("fightResult");
+  }
   playerTurn() {
     this.canDoAction = true;
   }

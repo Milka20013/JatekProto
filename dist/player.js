@@ -41,6 +41,10 @@ class Player {
     static reset() {
         this.currentHp = this.initialHp;
     }
+    static heal(amount) {
+        this.currentHp += amount;
+        this.currentHp = Math.min(this.currentHp, this.initialHp);
+    }
     static die() {
         this.level = 1;
         this.stats = new Stats(10);
@@ -74,12 +78,24 @@ class Player {
         this.armor = armor;
         this.stats.applyItem(this.armor);
     }
+    static buyConsumable(consumable) {
+        if (this.consumables.length >= 2) {
+            return "Too many consumables";
+        }
+        if (this.money >= consumable.cost) {
+            this.money -= consumable.cost;
+            this.consumables.push(consumable);
+            return "You bought " + consumable.name;
+        }
+        return "Not enough money :(";
+    }
 }
 _a = Player;
 Player.level = 1;
 Player.stats = new Stats(10);
 Player.initialHp = 20;
 Player.currentHp = _a.initialHp;
-Player.money = 50;
+Player.money = 250;
+Player.consumables = [];
 Player.wins = 0;
 //# sourceMappingURL=player.js.map

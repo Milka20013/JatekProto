@@ -13,22 +13,27 @@ class Stats {
             {
                 name: StatName.str,
                 value: 1,
+                description: "+2 damage",
             },
             {
                 name: StatName.atk,
                 value: 1,
+                description: "+ chance of attack success",
             },
             {
                 name: StatName.def,
                 value: 1,
+                description: "+ chance of blocking success",
             },
             {
                 name: StatName.vit,
                 value: 1,
+                description: "+5 health",
             },
             {
                 name: StatName.char,
                 value: 1,
+                description: "More money after a win",
             },
         ];
         this.statPoints = 1;
@@ -89,22 +94,14 @@ class Stats {
     static calculateSuccessRate(attackerStat, defenderStat, attackMode) {
         let attack = attackerStat.getStatValue(StatName.atk);
         let def = defenderStat.getStatValue(StatName.def);
-        let attackModePoints = 0;
-        switch (attackMode) {
-            case AttackMode.Light:
-                attackModePoints = 4;
-                break;
-            case AttackMode.Medium:
-                attackModePoints = 1;
-                break;
-            case AttackMode.Heavy:
-                attackModePoints = -4;
-                break;
-            default:
-                break;
+        return Math.min(Math.max((0.5 + (attack - def) / 10) / attackMode, 0.15), 0.95);
+    }
+    modifyStat(statname, value) {
+        for (let i = 0; i < this.stats.length; i++) {
+            if (this.stats[i].name == statname) {
+                this.stats[i].value += value;
+            }
         }
-        return (Math.min(Math.sqrt(Math.max(attack + attackModePoints - def, 0.5)), 3) *
-            0.33);
     }
     static calculateDamage(attackerStat, defenderStat, attackMode) {
         let attackDamageMultiplier = attackMode;

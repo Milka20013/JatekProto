@@ -19,14 +19,23 @@ class Enemy {
         }
         return false;
     }
-    giveMoney() {
+    getMoneyAmount() {
         const max = (40 + Player.level * 8) *
             (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
         const min = 25 +
             Player.level *
                 3 *
                 (1 + (Player.stats.getStatValue(StatName.char) - 1) * 0.15);
-        Player.money += Math.round(Math.random() * (max - min) + min);
+        this.givenMoney = Math.round(Math.random() * (max - min) + min);
+        return this.givenMoney;
+    }
+    giveMoney() {
+        if (!!this.givenMoney) {
+            Player.money += this.givenMoney;
+        }
+        else {
+            Player.money += this.getMoneyAmount();
+        }
     }
 }
 //# sourceMappingURL=enemy.js.map

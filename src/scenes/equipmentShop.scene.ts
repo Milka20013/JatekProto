@@ -1,7 +1,6 @@
 /// <reference path="../types/index.d.ts" />
 
 class EquipmentShopScene extends BaseScene {
-  infoText!: Phaser.GameObjects.Text;
   moneyText!: Phaser.GameObjects.Text;
   constructor(name: string) {
     super(name);
@@ -9,7 +8,6 @@ class EquipmentShopScene extends BaseScene {
   create() {
     super.create();
     this.bg.setTexture(ImageIdConstants.equipmentShopBg);
-    this.infoText = this.add.text(60, 100, "Hello!");
     this.moneyText = this.add.text(
       60,
       600,

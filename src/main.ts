@@ -8,6 +8,8 @@ const equipmentShopScene = new EquipmentShopScene("equipmentShop");
 const magicShopScene = new MagicShopScene("magicShop");
 const arenaLobbyScene = new ArenaLobbyScene("arenaLobby");
 const arenaScene = new ArenaScene("arena");
+const fightResultScene = new FightResultScene("fightResult");
+
 const game = new Phaser.Game({
   width: 1280,
   height: 720,
@@ -20,6 +22,7 @@ const game = new Phaser.Game({
     magicShopScene,
     arenaLobbyScene,
     arenaScene,
+    fightResultScene,
   ],
   type: Phaser.AUTO,
 });

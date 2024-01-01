@@ -7,7 +7,6 @@ class EquipmentShopScene extends BaseScene {
     create() {
         super.create();
         this.bg.setTexture(ImageIdConstants.equipmentShopBg);
-        this.infoText = this.add.text(60, 100, "Hello!");
         this.moneyText = this.add.text(60, 600, "You have " + Player.money + " Gold");
         for (let i = 0; i < Item.swords.length; i++) {
             const button = this.add
